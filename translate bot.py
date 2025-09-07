@@ -2,16 +2,6 @@ import os
 import google.generativeai as genai
 from indic_transliteration.sanscript import transliterate, TAMIL, ITRANS
 
-# Function: Convert Tamil script to Romanized style
-def tamil_to_roman(text):
-    try:
-        roman = transliterate(text, TAMIL, ITRANS)
-        roman = roman.replace("_", "").capitalize()
-        if not roman.endswith("?"):
-            roman += "?"
-        return roman
-    except Exception:
-        return text
 
 # Function: Ask Gemini for translation (direct and clean output)
 def translate_with_gemini(text, direction="en-ta"):
@@ -19,8 +9,8 @@ def translate_with_gemini(text, direction="en-ta"):
 
     if direction == "en-ta":
         prompt = (
-            f"Translate the following English text to Tamil. "
-            f"Output ONLY the Tamil text in Tamil script without explanations:\n{text}"
+            f"Translate the following English text into Tamil. "
+            f"Return the Tamil translation in English letters (Romanized Tamil), without explanations or extra text:\n{text}"
         )
     else:
         prompt = (
@@ -30,6 +20,7 @@ def translate_with_gemini(text, direction="en-ta"):
 
     response = genai.GenerativeModel(model).generate_content(prompt)
     return response.text.strip()
+
 
 # Load API Key
 api_key = os.getenv("GEMINI_API_KEY")
@@ -54,9 +45,9 @@ except ValueError:
 if choice == 1:
     user_text = input("English text: ").strip()
     translation = translate_with_gemini(user_text, "en-ta")
-    roman = tamil_to_roman(translation)
+    # roman = tamil_to_roman(translation)
     print(f"Priya: {user_text}")
-    print(f"Bot: {roman}")
+    print(f"Bot: {translation}")
 
 elif choice == 2:
     user_text = input("Tamil text: ").strip()
