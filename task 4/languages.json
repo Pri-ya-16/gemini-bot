@@ -1,0 +1,8 @@
+{
+  "languages": [
+    { "from": "tamil", "to": "english" },
+    { "from": "english", "to": "tamil" },
+    { "from": "Malayalam", "to": "hindi" },
+    { "from": "hindi", "to": "telugu" }
+  ]
+}
